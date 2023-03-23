@@ -11,7 +11,8 @@ public class ImageManipulation {
      *  Write a statement that will display the image in a window
      */
     public static void main(String[] args) {
-        edgeDetection("cyberpunk2077.jpg",20);
+
+            rotateImage("cyberpunk2077.jpg");
     }
 
     /** CHALLENGE ONE: Grayscale
@@ -148,9 +149,29 @@ public class ImageManipulation {
      * OUTPUT: the image reflected about the y-axis
      *
      */
-    public static void reflectImage(String pathToFile) {
+    public static void reflectImage(String path) {
+
+        APImage image = new APImage(path);
+        reflect(image);
+        image.draw();
+
 
     }
+
+    public static void reflect(APImage image){
+        int h = image.getHeight();
+        int w = image.getWidth();
+        int half = (w-1)/2;
+        for(int i=0; i<half; i++){
+            for(int j = 0; j<h-1; j++){
+                Pixel temp = image.getPixel(i,j);
+                image.setPixel(i,j,image.getPixel(w-i,j));
+                image.setPixel(w-i,j,temp);
+            }
+        }
+    }
+
+
 
     /** CHALLENGE Five: Rotate Image
      *
@@ -158,8 +179,22 @@ public class ImageManipulation {
      * OUTPUT: the image rotated 90 degrees CLOCKWISE
      *
      *  */
-    public static void rotateImage(String pathToFile) {
+    public static void rotateImage(String path) {
+        APImage image = new APImage(path);
+        int h = image.getHeight();
+        int w = image.getWidth();
+        APImage image2 = new APImage(h,w);
 
+        for(int i=0; i<w-1; i++){
+            for(int j = 0; j<h-1; j++){
+                image2.setPixel(j,i,image.getPixel(i,j));
+            }
+        }
+
+        reflect(image2);
+        image2.draw();
     }
+
+
 
 }
